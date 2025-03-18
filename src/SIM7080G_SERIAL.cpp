@@ -4,9 +4,8 @@
 unsigned long period1; 
 void everyX(){
   if((millis() - period1) > 3000){
-    Serial.println("coucou");
+    // Serial.println("coucou");
     period1 = millis();
-    turn_off_SIM7080G();
   }
 }
 
@@ -22,6 +21,7 @@ String Send_AT(String message){
       tmp_char = Sim7080G.read();
       uart_buffer += tmp_char; 
       Serial.print(tmp_char);
+      
     }
 
   }

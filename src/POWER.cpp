@@ -17,7 +17,8 @@ void turn_on_SIM7080G(){
 
   void turn_off_SIM7080G(){
     Sim7080G.println("AT+CPOWD=1");
-    Serial.println("This the end");
+    delay(2000);
+    Serial.println("TURN OFF");
 
   }
 
