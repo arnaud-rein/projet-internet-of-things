@@ -1,14 +1,14 @@
 #include <Arduino.h>
 #include "POWER.hpp"
 #include "SIM7080G_SERIAL.hpp"
-
+unsigned long period1; 
 
 void reboot_SIM7080G(){
   turn_off_SIM7080G();
   turn_on_SIM7080G(); 
 }
 
-String getGnssTest(){
+String gnssStart(){
   return Send_AT("AT+CGNSPWR=1");  // Envoie la commande AT+CBC
 }
 
@@ -88,8 +88,16 @@ void getLatLng(String gnssData){
     
   
 
-}
-
+  }
+  
+  void everyX(){
+    if((millis() - period1) > 3000){
+      // Serial.println("coucou");
+      period1 = millis();
+      String gnssData = get_GNSS_Info();
+      getLatLng(gnssData);
+    }
+  }
 
 
 void setup() {
@@ -106,26 +114,16 @@ void setup() {
   Serial.println(getBatteryLevel());  
 
   Serial.println("GNSS"); 
-  Serial.println(getGnssTest());
+  Serial.println(gnssStart());
   
   Serial.println(check_GNSS_Status());
   Serial.println(get_GNSS_Mode());
   
-
+  period1 = millis();
 }
 
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  if(Sim7080G.available()){
-    char byte_recv = Sim7080G.read();
-    Serial.print(byte_recv);
-    // Serial.print(ESP.getHeapSize);
-  }
-  // everyX();
-  // Serial.println(millis()); 
-  // Serial.println(get_GNSS_Info());
-  String gnssData = get_GNSS_Info();
-  getLatLng(gnssData);
-  delay(10000);
+
+  everyX();
 }
