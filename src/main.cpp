@@ -12,6 +12,9 @@ void setup() {
   String reponse = Send_AT("AT+SIMCOMATI");
   Serial.println(reponse);
   
+  Serial.println("Niveau de batterie :");
+  Serial.println(getBatteryLevel());  
+  
 
 }
 

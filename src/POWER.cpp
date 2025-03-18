@@ -14,3 +14,14 @@ void turn_on_SIM7080G(){
     Sim7080G.println("AT+GSN");
     Sim7080G.println("AT+SIMCOMATI");
   }
+
+  void turn_off_SIM7080G(){
+    Sim7080G.println("AT+CPOWD=1");
+    Serial.println("This the end");
+
+  }
+
+  String getBatteryLevel() {
+    return Send_AT("AT+CBC");  // Envoie la commande AT+CBC
+}
+

@@ -6,6 +6,7 @@ void everyX(){
   if((millis() - period1) > 3000){
     Serial.println("coucou");
     period1 = millis();
+    turn_off_SIM7080G();
   }
 }
 

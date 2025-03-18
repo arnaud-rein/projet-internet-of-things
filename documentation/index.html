@@ -28,13 +28,31 @@
         <h2>Issue COM3 - PORT </h2>
         <img src="./images/issue-com3.jpg">
         <p>Quand vous avez l'erreur que vous voyez : "Serial port COM3
-
+            
             A fatal error occurred: Could not open COM3, the port doesn't exist
             *** [upload] Error 2
             ======================"
-        <br> il faut appuyer sur la prise (fluo en jaune), ensuite choisir le nouveau com (en vert : "com4").
-        <br> Ensuite upload. 
+            <br> il faut appuyer sur la prise (fluo en jaune), ensuite choisir le nouveau com (en vert : "com4").
+            <br> Ensuite upload. 
         </p>
+        
+        <h2> NIVEAU DE BATTERIE </h2>
+        <img src="./images/niveau_batterie.jpg">
+        <p>La commande AT+CBC renvoie l’état de la batterie sous cette forme :
+            <br>
+           "
+            +CBC: batterie_status, niveau_batterie, voltage_mV
+            OK"
+
+            <br><br>
+            batterie_status :
+            <br>0 = Non branché
+            <br>1 = Chargement
+            <br>2 = Chargé
+            <br>niveau_batterie : Pourcentage de la batterie (0 à 100)
+            <br>voltage_mV : Tension de la batterie en millivolts (mV)</p>
+
+
 
     <br>
     <br>
