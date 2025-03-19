@@ -10,5 +10,11 @@ String get_GNSS_Info();
 String get_GNSS_Mode();
 String getValueOfGnssData(String gnssData, int16_t choiceValue);
 String getTimeStamp(String gnssData);
-void getLatLng(String gnssData);
+String getRunStatus(String gnssData);
+String getAltitude(String gnssData);
+String getLng(String gnssData);
+String getLat(String gnssData);
+String getTimeStamp(String gnssData);
+String getFixStatus(String gnssData);
+String getLatLng(String gnssData);
   
