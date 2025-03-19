@@ -28,11 +28,7 @@ void setup() {
   Serial.println("Niveau de batterie :");
   Serial.println(getBatteryLevel());  
 
-  Serial.println("GNSS"); 
-  Serial.println(gnssTurnOn());
-  
-  Serial.println(check_GNSS_Status());
-  Serial.println(get_GNSS_Mode());
+  initGnssCongif();
   
   period1 = millis();
 }
