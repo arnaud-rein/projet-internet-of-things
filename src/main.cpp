@@ -7,10 +7,8 @@ unsigned long period1;
     if((millis() - period1) > 3000){
       // Serial.println("coucou");
       period1 = millis();
-      String gnssData = get_GNSS_Info();
-      String timeStamp = getTimeStamp(gnssData);
-      Serial.println(convertTimestampToLocalTime(timeStamp, 1));
-      Serial.println(getLatLng(gnssData));
+      Serial.println(DisplayLatLng());
+
     }
   }
 

@@ -15,16 +15,23 @@
     <br>Ensuite relacher le bouton enable, ca va boot. <br>
     Puis appuyer une fois sur enable et on va pouvoir restart.</h5>
 
-    
-    <h1>l'OVERFLOW</h1> 
-    <p>L'overflow (dépassement) est un problème classique en programmation bas niveau, 
+    <div class="container">
+        <h1>l'OVERFLOW</h1> 
+        <p>L'overflow (dépassement) est un problème classique en programmation bas niveau, 
         notamment en C et dans l’IoT, où les ressources mémoire sont limitées.
         <br> Cela se produit lorsqu'une valeur dépasse la capacité de stockage d'un type de donnée.</p>
-        
-        <h2>description carte</h2>
-        <img src="./images/carte.jpg">
-        <img src="./images/esp-sim.png.jpg">
-        
+    </div>
+        <br>
+        <div class="container">
+            <h2>description carte</h2>
+            
+            <img src="./images/carte.jpg">
+            <img src="./images/esp-sim.png.jpg">
+        </div>
+
+        <div class="container">
+
+        <br>
         <h2>Issue COM3 - PORT </h2>
         <img src="./images/issue-com3.jpg">
         <p>Quand vous avez l'erreur que vous voyez : "Serial port COM3
@@ -35,7 +42,9 @@
             <br> il faut appuyer sur la prise (fluo en jaune), ensuite choisir le nouveau com (en vert : "com4").
             <br> Ensuite upload. 
         </p>
-        
+        </div>
+        <br>
+        <div class="container">
         <h2> NIVEAU DE BATTERIE </h2>
         <img src="./images/niveau_batterie.jpg">
         <p>La commande AT+CBC renvoie l’état de la batterie sous cette forme :
@@ -52,14 +61,74 @@
             <br>niveau_batterie : Pourcentage de la batterie (0 à 100)
             <br>voltage_mV : Tension de la batterie en millivolts (mV)</p>
 
-
+        </div>
 
     <br>
     <br>
     <br>
     <h5>IMPORTANT : ne pas importer plusieurs fois le même fichier hpp sous peine d'avoir des bug en cascade, par exemple appeler la même variable deux fois </h5>
     <h5> Quand on a plus le coucou : on doit juste appuyer sur le bouton enable</h5>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <div class="container">
+    <h2>Modification du fichier platform.ini</h2>
+    <p>build_flags =
+      <br>  -I../lib
+      <br>  -I../lib/gnss
+      <br>  -I../lib/power
+      <br>  -I../lib/timestamp
+      <br>  -I../lib/serial
+      <br>  -I../lib/argali
+    </p>
+
+    <br>
+    <p> build_flags va servir à ne pas remettre le chemin relatif de nos dossiers à chaque fois </p>
+    </div>
+    <br>
+    <div class="container">
+        <h1>🔍 Les Pointeurs en C</h1>
+        
+        <p>Oui, tu peux définir plusieurs pointeurs qui pointent vers la même variable. Cela signifie que si tu modifies la valeur via l’un des pointeurs, tous les autres la verront aussi !</p>
+        
+        <h2>📌 Exemple de code :</h2>
+        <pre>
+#include &lt;stdio.h&gt;
+
+int main() {
+    int nombre = 42;      // Déclare une variable normale
+    int *ptr1 = &nombre;  // Premier pointeur
+    int *ptr2 = &nombre;  // Deuxième pointeur
+
+    printf("Avant modification : %d\n", nombre);
     
-    
+    *ptr1 = 99;  // Modification via ptr1
+
+    printf("Après modification via ptr1 : %d\n", nombre);
+    printf("Valeur via ptr2 : %d\n", *ptr2);  // ptr2 voit aussi la mise à jour
+
+    return 0;
+}
+        </pre>
+
+        <div class="explanation">
+            <h2>🧐 Explication :</h2>
+            <p>1️⃣ <strong>Création de la variable :</strong> <code>int nombre = 42;</code></p>
+            <p>2️⃣ <strong>Déclaration de deux pointeurs :</strong> <code>ptr1</code> et <code>ptr2</code> stockent l’adresse de <code>nombre</code>.</p>
+            <p>3️⃣ <strong>Modification via <code>ptr1</code> :</strong> <code>*ptr1 = 99;</code> change directement la valeur de <code>nombre</code>.</p>
+            <p>4️⃣ <strong>Affichage avec <code>ptr2</code> :</strong> Il affiche aussi <code>99</code>, car il pointe sur la même adresse.</p>
+        </div>
+
+        <h2>📤 Sortie du programme :</h2>
+        <pre>
+Avant modification : 42
+Après modification via ptr1 : 99
+Valeur via ptr2 : 99
+        </pre>
+
+        <p>✅ Plusieurs pointeurs peuvent partager la même adresse en mémoire. Toute modification via l’un d’eux impacte directement la variable pointée.</p>
+    </div>
 </body>
 </html>
