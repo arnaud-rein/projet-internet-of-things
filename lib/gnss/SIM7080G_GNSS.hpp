@@ -1,3 +1,7 @@
+#ifndef SIM7080G_GNSS_HPP
+#define SIM7080G_GNSS_HPP
+
+
 #include <Arduino.h> 
 #include "ARGALI_PINOUT.hpp"
 #include "SIM7080G_SERIAL.hpp"
@@ -20,13 +24,28 @@ String getLatLng(String gnssData);
 
 
 
+
+struct Float_gnss{
+    uint8_t ent; 
+    uint32_t dec;
+};
+
+struct Coord{
+    Float_gnss latitude; 
+    Float_gnss longitude; 
+};
+
+
 struct Gnss{
     String runStatus;
     String fixStatus;
     String timeStamp; 
-    String latitude; 
-    String longitude; 
+    Coord coordonnees; 
     String altitude;
 };
 
+Coord parserLatLng(String lat, String lng);
+Float_gnss parseGNSS(String coord);
 Gnss getGnssResponse();
+
+#endif // SIM7080G_GNSS_HPP

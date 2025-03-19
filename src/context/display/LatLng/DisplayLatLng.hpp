@@ -7,7 +7,7 @@
 #include "PARSER_TIMESTAMP.hpp"
 
 
-String DisplayLatLng();
+void DisplayLatLngInfo();
 
 
 

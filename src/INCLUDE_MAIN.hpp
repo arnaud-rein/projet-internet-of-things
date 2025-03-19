@@ -9,6 +9,7 @@
 #include  "SIM7080G_GNSS.hpp"
 #include  "PARSER_TIMESTAMP.hpp"
 #include "SIM7080G_SERIAL.hpp"
+#include "SIM7080G_CATM1.hpp"
 
 
 //SETUP 
@@ -17,6 +18,7 @@
 
 //CONTEXT
 #include "context/display/LatLng/DisplayLatLng.hpp"
+#include "context/display/TimeStamp/DisplayTimeStamp.hpp"
 
 
 #endif

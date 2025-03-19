@@ -5,9 +5,10 @@ unsigned long period1;
 
   void everyX(){
     if((millis() - period1) > 3000){
-      // Serial.println("coucou");
       period1 = millis();
-      Serial.println(DisplayLatLng());
+      DisplayLatLngInfo();
+      displayTimeStamp();
+      loop_CATM1();
 
     }
   }
@@ -27,6 +28,7 @@ void setup() {
   Serial.println(getBatteryLevel());  
 
   initGnssCongif();
+  setup_CATM1();
   
   period1 = millis();
 }

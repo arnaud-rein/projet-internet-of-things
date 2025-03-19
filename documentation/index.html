@@ -386,5 +386,82 @@ int main() {
             </ul>
         </div>
     </div>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <div class="container">
+        <h1>✅ Utilisation de `std::map` et `std::cout` en C++</h1>
+
+        <h2>📌 Exemple d'utilisation de `std::map`</h2>
+        <pre>
+#include &lt;iostream&gt;
+#include &lt;map&gt;
+#include &lt;string&gt;
+
+int main() {
+    // Déclaration d'une map (clé = string, valeur = int)
+    std::map&lt;std::string, int&gt; ages;
+
+    // Ajout de valeurs
+    ages["Alice"] = 25;
+    ages["Bob"] = 30;
+    ages["Charlie"] = 22;
+
+    // Affichage avec std::cout
+    for (const auto &pair : ages) {
+        std::cout << pair.first << " a " << pair.second << " ans" << std::endl;
+    }
+
+    return 0;
+}
+        </pre>
+
+        <h3>📤 Sortie :</h3>
+        <div class="output">
+            Alice a 25 ans<br>
+            Bob a 30 ans<br>
+            Charlie a 22 ans
+        </div>
+
+        <div class="explanation">
+            <h2>🔍 Explication :</h2>
+            <ul>
+                <li>✅ `std::map&lt;std::string, int&gt;` est une **map associant une clé (`string`) à une valeur (`int`)**.</li>
+                <li>✅ `ages["Alice"] = 25;` **ajoute une clé "Alice" avec la valeur 25**.</li>
+                <li>✅ La boucle `for` parcourt tous les éléments de la map et affiche les clés/valeurs.</li>
+            </ul>
+        </div>
+
+        <h2>📌 Explication de `std::cout`</h2>
+        <pre>
+#include &lt;iostream&gt;
+
+int main() {
+    std::string nom = "Alice";
+    int age = 25;
+
+    // Affichage avec std::cout
+    std::cout << "Nom : " << nom << ", Âge : " << age << std::endl;
+
+    return 0;
+}
+        </pre>
+
+        <h3>📤 Sortie :</h3>
+        <div class="output">
+            Nom : Alice, Âge : 25
+        </div>
+
+        <div class="explanation">
+            <h2>🔹 Comment fonctionne `std::cout` ?</h2>
+            <ul>
+                <li>✅ `std::cout` signifie **"Character Output"**, il affiche des messages.</li>
+                <li>✅ `<<` est l'**opérateur de flux** qui concatène les éléments.</li>
+                <li>✅ `std::endl` signifie **"End Line"**, il ajoute un retour à la ligne (`\n`).</li>
+            </ul>
+        </div>
+    </div>
 </body>
 </html>

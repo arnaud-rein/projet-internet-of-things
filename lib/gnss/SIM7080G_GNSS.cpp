@@ -78,17 +78,47 @@ String getLatLng(String gnssData){
     return message;
 }
 
+Coord parserLatLng(String lat, String lng){
+    Coord coord; 
+    coord.latitude =  parseGNSS(lat); 
+    coord.longitude =  parseGNSS(lng); 
+    return coord;
+}
+
+
+// Fonction pour parser une coordonnée GNSS depuis un `String` Arduino
+Float_gnss parseGNSS(String coord) {
+    Float_gnss result;
+
+    // Trouver la position du point
+    int pointIndex = coord.indexOf('.');
+
+    if (pointIndex == -1) {
+        Serial.println("Erreur : Format invalide !");
+        return result; // Retourne un résultat vide si la conversion échoue
+    }
+
+    // Extraire la partie entière
+    result.ent = coord.substring(0, pointIndex).toInt();
+
+    // Extraire la partie décimale et convertir en entier (6 chiffres max)
+    String decimalPart = coord.substring(pointIndex + 1);
+    while (decimalPart.length() < 6) decimalPart += "0"; // Compléter si nécessaire
+    result.dec = decimalPart.substring(0, 6).toInt(); // Tronquer à 6 chiffres
+
+    return result;
+}
 
 
 
 Gnss getGnssResponse(){
     Gnss gnss;
     String gnssData = get_GNSS_Info();
+    Coord coord = parserLatLng(getLat(gnssData), getLng(gnssData));
     gnss.runStatus = getRunStatus(gnssData);
     gnss.fixStatus = getFixStatus(gnssData);
     gnss.timeStamp = getTimeStamp(gnssData);
-    gnss.latitude = getLat(gnssData);
-    gnss.longitude = getLng(gnssData);
+    gnss.coordonnees = coord; 
     gnss.altitude = getAltitude(gnssData);
 
     return  gnss;
