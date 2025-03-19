@@ -4,7 +4,7 @@
 
 #include <Arduino.h>  // Inclusion de la bibliothèque Arduino
 #include "ARGALI_PINOUT.hpp"
-#include "POWER.hpp"
+#include "SIM7080G_POWER.hpp"
 
 // Déclaration des variables externes (si utilisées dans plusieurs fichiers)
 
