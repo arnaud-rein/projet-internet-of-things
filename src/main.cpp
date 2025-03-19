@@ -5,12 +5,11 @@ unsigned long period1;
 
   void everyX(){
     if((millis() - period1) > 3000){
-      // Serial.println("coucou");
       period1 = millis();
-      String gnssData = get_GNSS_Info();
-      String timeStamp = getTimeStamp(gnssData);
-      Serial.println(convertTimestampToLocalTime(timeStamp, 1));
-      // convertTimestampToLocalTime()
+      DisplayLatLngInfo();
+      displayTimeStamp();
+      loop_CATM1();
+
     }
   }
 
@@ -28,11 +27,8 @@ void setup() {
   Serial.println("Niveau de batterie :");
   Serial.println(getBatteryLevel());  
 
-  Serial.println("GNSS"); 
-  Serial.println(gnssTurnOn());
-  
-  Serial.println(check_GNSS_Status());
-  Serial.println(get_GNSS_Mode());
+  initGnssCongif();
+  setup_CATM1();
   
   period1 = millis();
 }

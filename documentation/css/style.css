@@ -3,3 +3,65 @@ img{
     height: 40em;
     display: block;
 }
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+    line-height: 1.6;
+}
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+h1 {
+    color: #333;
+    text-align: center;
+}
+pre {
+    background: #222;
+    color: #0f0;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+.explanation {
+    background: #e6f7ff;
+    padding: 15px;
+    border-left: 5px solid #007BFF;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+th {
+    background-color: #007BFF;
+    color: white;
+}
+
+h2 {
+    color: #333;
+    text-align: center;
+}
+
+.output {
+    background: #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+    font-family: monospace;
+}

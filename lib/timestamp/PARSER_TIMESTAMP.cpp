@@ -41,3 +41,35 @@ String convertTimestampToLocalTime(String utcTimestamp, int timeOffset) {
   
     return localTime;
   }
+
+
+
+// tm convertTimestampToLocalTimeTm(String utcTimestamp, int timeOffset) {
+
+//     tm time; 
+//     // Extraction des valeurs du timestamp (yyyyMMddhhmmss.sss)
+//     time.annee = utcTimestamp.substring(0, 4).toInt();    // Année (ex: 2025)
+//     time.mois = utcTimestamp.substring(4, 6).toInt();   // Mois (ex: 03)
+//     time.jour = utcTimestamp.substring(6, 8).toInt();     // Jour (ex: 18)
+//    time.heure = utcTimestamp.substring(8, 10).toInt();   // Heure UTC (ex: 15)
+//     time.minute = utcTimestamp.substring(10, 12).toInt(); // Minute (ex: 46)
+//     time.seconde = utcTimestamp.substring(12, 14).toInt(); // Seconde (ex: 53)
+  
+    
+//     return time;
+//   }
+
+tm parserTimeStamp(String utcTimestamp ){
+
+    struct tm timeStruct;  // Création de la struct tm
+    
+    // Remplir la struct tm avec les valeurs du timestamp
+    timeStruct.tm_year = utcTimestamp.substring(0, 4).toInt() - 1900; // Année - 1900
+    timeStruct.tm_mon  = utcTimestamp.substring(4, 6).toInt() - 1;    // Mois - 1 (Janvier = 0)
+    timeStruct.tm_mday = utcTimestamp.substring(6, 8).toInt();
+    timeStruct.tm_hour = utcTimestamp.substring(8, 10).toInt();
+    timeStruct.tm_min  = utcTimestamp.substring(10, 12).toInt();
+    timeStruct.tm_sec  = utcTimestamp.substring(12, 14).toInt();
+
+    return timeStruct;
+}
