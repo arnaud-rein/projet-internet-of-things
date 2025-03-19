@@ -17,4 +17,16 @@ String getLat(String gnssData);
 String getTimeStamp(String gnssData);
 String getFixStatus(String gnssData);
 String getLatLng(String gnssData);
-  
+
+
+
+struct Gnss{
+    String runStatus;
+    String fixStatus;
+    String timeStamp; 
+    String latitude; 
+    String longitude; 
+    String altitude;
+};
+
+Gnss getGnssResponse();

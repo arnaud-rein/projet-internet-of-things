@@ -36,3 +36,32 @@ pre {
     margin-top: 20px;
     border-radius: 5px;
 }
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+th {
+    background-color: #007BFF;
+    color: white;
+}
+
+h2 {
+    color: #333;
+    text-align: center;
+}
+
+.output {
+    background: #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+    font-family: monospace;
+}

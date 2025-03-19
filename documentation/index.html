@@ -130,5 +130,261 @@ Valeur via ptr2 : 99
 
         <p>✅ Plusieurs pointeurs peuvent partager la même adresse en mémoire. Toute modification via l’un d’eux impacte directement la variable pointée.</p>
     </div>
+
+    <br>
+    <br>
+    <br>
+
+    <div class="container">
+        <h1>📌 Pourquoi utiliser des pointeurs en argument de fonction ?</h1>
+
+        <p>En C, utiliser des pointeurs dans les fonctions offre plusieurs avantages, notamment :</p>
+
+        <h2>✅ 1️⃣ Modifier directement une variable</h2>
+        <p>Sans pointeur, la fonction copie la variable, donc elle ne la modifie pas réellement :</p>
+        <pre>
+int incrementer(int x) {
+    x += 1;
+    return x;
+}</pre>
+        <p>Avec un pointeur, la fonction modifie directement la variable en mémoire :</p>
+        <pre>
+void incrementer(int *x) {
+    *x += 1;
+}</pre>
+
+        <h2>✅ 2️⃣ Éviter de copier une `struct` (Optimisation mémoire)</h2>
+        <p>Sans pointeur, la `struct` est copiée :</p>
+        <pre>
+void afficherPoint(Point p) {
+    printf("Point (%d, %d)\n", p.x, p.y);
+}</pre>
+        <p>Avec un pointeur, on évite la copie (plus rapide) :</p>
+        <pre>
+void afficherPoint(Point *p) {
+    printf("Point (%d, %d)\n", p->x, p->y);
+}</pre>
+
+        <h2>✅ 3️⃣ Retourner plusieurs valeurs</h2>
+        <p>Sans pointeur, une fonction ne peut retourner qu'une seule valeur :</p>
+        <pre>
+int somme(int a, int b) {
+    return a + b;
+}</pre>
+        <p>Avec des pointeurs, on peut retourner plusieurs valeurs :</p>
+        <pre>
+void calculer(int a, int b, int *somme, int *difference) {
+    *somme = a + b;
+    *difference = a - b;
+}</pre>
+
+        <h2>✅ 4️⃣ Retourner un tableau</h2>
+        <p>En C, une fonction ne peut pas retourner un tableau directement :</p>
+        <pre>
+// Impossible :
+int tableau[5];
+return tableau;  // ERREUR</pre>
+        <p>Mais avec un pointeur, c’est possible :</p>
+        <pre>
+int* creerTableau(int taille) {
+    int *tab = (int*) malloc(taille * sizeof(int));
+    return tab;
+}</pre>
+
+        <div class="explanation">
+            <h2>🎯 Comparaison des méthodes</h2>
+            <table>
+                <tr>
+                    <th>Cas d’usage</th>
+                    <th>Sans pointeur</th>
+                    <th>Avec pointeur</th>
+                </tr>
+                <tr>
+                    <td>Modifier une variable</td>
+                    <td>Copie, pas de modification directe</td>
+                    <td>Modifie directement la valeur</td>
+                </tr>
+                <tr>
+                    <td>Passer une `struct`</td>
+                    <td>Copie complète (lent)</td>
+                    <td>Passe l'adresse (rapide)</td>
+                </tr>
+                <tr>
+                    <td>Retourner plusieurs valeurs</td>
+                    <td>Impossible</td>
+                    <td>Possible avec plusieurs pointeurs</td>
+                </tr>
+                <tr>
+                    <td>Retourner un tableau</td>
+                    <td>Impossible</td>
+                    <td>Possible avec un pointeur</td>
+                </tr>
+            </table>
+        </div>
+
+        <p>💡 En résumé :</p>
+        <ul>
+            <li>✅ Si tu veux modifier une variable → Utilise un pointeur</li>
+            <li>✅ Si tu veux éviter de copier une `struct` → Utilise un pointeur</li>
+            <li>✅ Si tu veux retourner plusieurs valeurs → Utilise des pointeurs</li>
+            <li>✅ Si tu veux retourner un tableau → Utilise un pointeur</li>
+        </ul>
+
+        <p><strong>Tu veux un exemple plus avancé avec gestion mémoire et objets dynamiques ? 🚀😊</strong></p>
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+    <div class="container">
+        <h1>✅ 📝 Pointeurs et Fonctions Imbriquées en C</h1>
+
+        <h2>📌 Code C :</h2>
+        <pre>
+#include &lt;stdio.h&gt;
+
+// Fonction secondaire qui modifie la variable
+void ajouter10(int *ptr) {
+    printf("[ajouter10] Adresse reçue : %p, Valeur avant : %d\n", ptr, *ptr);
+    *ptr += 10;  // Ajoute 10 à la valeur pointée
+    printf("[ajouter10] Valeur après : %d\n", *ptr);
+}
+
+// Fonction principale qui appelle une autre fonction
+void function(int *ptr) {
+    printf("[function] Adresse reçue : %p, Valeur actuelle : %d\n", ptr, *ptr);
+    ajouter10(ptr);  // Appel à une autre fonction en passant le pointeur
+    printf("[function] Valeur après appel de ajouter10 : %d\n", *ptr);
+}
+
+int main() {
+    int variable = 5;
+
+    printf("[main] Avant function - Adresse de variable : %p\n", &variable);
+    printf("[main] Avant function - Valeur de variable : %d\n", variable);
+
+    function(&variable);  // On passe l'adresse de la variable
+
+    printf("[main] Après function - Valeur de variable : %d\n", variable);
+
+    return 0;
+}
+        </pre>
+
+        <div class="explanation">
+            <h2>🔍 Explication :</h2>
+            <p>1️⃣ `main()` crée une variable `variable = 5`.</p>
+            <p>2️⃣ Il passe l’adresse de `variable` à `function(&variable)`.</p>
+            <p>3️⃣ `function()` affiche l'adresse et la valeur, puis appelle `ajouter10(ptr)` en passant toujours le pointeur.</p>
+            <p>4️⃣ `ajouter10()` ajoute `10` à la valeur de `variable` via le pointeur.</p>
+            <p>5️⃣ Retour dans `function()`, qui affiche la nouvelle valeur (`15`).</p>
+            <p>6️⃣ Retour à `main()`, la variable a bien été modifiée.</p>
+        </div>
+
+        <h2>📤 Sortie du programme :</h2>
+        <div class="output">
+            [main] Avant function - Adresse de variable : 0x7ffee12a1b<br>
+            [main] Avant function - Valeur de variable : 5<br>
+            [function] Adresse reçue : 0x7ffee12a1b, Valeur actuelle : 5<br>
+            [ajouter10] Adresse reçue : 0x7ffee12a1b, Valeur avant : 5<br>
+            [ajouter10] Valeur après : 15<br>
+            [function] Valeur après appel de ajouter10 : 15<br>
+            [main] Après function - Valeur de variable : 15<br>
+        </div>  
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+    <div class="container">
+        <h1>✅ Passer une `struct` dans une fonction en C</h1>
+
+        <h2>✅ 1️⃣ Passer une struct SANS pointeur (Copie de la struct)</h2>
+        <pre>
+#include &lt;stdio.h&gt;
+
+// Définition d'une structure
+typedef struct {
+    char nom[50];
+    int age;
+} Personne;
+
+// Fonction qui prend une struct par valeur (copie)
+void afficherPersonne(Personne p) {
+    printf("Nom : %s, Âge : %d\n", p.nom, p.age);
+}
+
+int main() {
+    // Création d'une instance de struct
+    Personne p1 = {"Alice", 25};
+
+    // Passage de la structure à la fonction
+    afficherPersonne(p1);
+
+    return 0;
+}
+        </pre>
+
+        <h3>📤 Sortie :</h3>
+        <div class="output">
+            Nom : Alice, Âge : 25
+        </div>
+
+        <div class="explanation">
+            <h2>⚠️ Attention :</h2>
+            <ul>
+                <li>✅ Ici, la `struct` est **copiée** dans `afficherPersonne()`.</li>
+                <li>⚠️ **Toute modification** dans `afficherPersonne()` **ne changera pas l'originale** `p1`.</li>
+                <li>⚠️ Peu optimal pour des `struct` volumineuses, **car cela duplique les données**.</li>
+            </ul>
+        </div>
+
+        <h2>✅ 2️⃣ Passer une struct AVEC pointeur (`*struct`)</h2>
+        <pre>
+#include &lt;stdio.h&gt;
+
+// Définition d'une structure
+typedef struct {
+    char nom[50];
+    int age;
+} Personne;
+
+// Fonction qui prend un pointeur sur une struct (modification directe)
+void modifierAge(Personne *p) {
+    p->age += 1;  // Modification directe via le pointeur
+}
+
+int main() {
+    // Création d'une instance de struct
+    Personne p1 = {"Bob", 30};
+
+    printf("Avant : %s a %d ans\n", p1.nom, p1.age);
+
+    // Passage par adresse
+    modifierAge(&p1);
+
+    printf("Après : %s a %d ans\n", p1.nom, p1.age);
+
+    return 0;
+}
+        </pre>
+
+        <h3>📤 Sortie :</h3>
+        <div class="output">
+            Avant : Bob a 30 ans<br>
+            Après : Bob a 31 ans
+        </div>
+
+        <div class="explanation">
+            <h2>✅ Avantages de l'utilisation d'un pointeur :</h2>
+            <ul>
+                <li>✅ On passe **l'adresse** de `p1` avec `&p1`.</li>
+                <li>✅ **Modification directe** de la variable `p1` dans la mémoire.</li>
+                <li>✅ **Pas de copie inutile**, idéal pour des `struct` volumineuses.</li>
+            </ul>
+        </div>
+    </div>
 </body>
 </html>

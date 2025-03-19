@@ -43,6 +43,8 @@ String getValueOfGnssData(String gnssData, int16_t choiceValue){
 }
 
 
+
+
 String getRunStatus(String gnssData){
     return getValueOfGnssData(gnssData, 0);
 }
@@ -74,4 +76,20 @@ String getLatLng(String gnssData){
     String message = "Latitude: " + Lat + ", Lontgitude: " + Lng;
    
     return message;
+}
+
+
+
+
+Gnss getGnssResponse(){
+    Gnss gnss;
+    String gnssData = get_GNSS_Info();
+    gnss.runStatus = getRunStatus(gnssData);
+    gnss.fixStatus = getFixStatus(gnssData);
+    gnss.timeStamp = getTimeStamp(gnssData);
+    gnss.latitude = getLat(gnssData);
+    gnss.longitude = getLng(gnssData);
+    gnss.altitude = getAltitude(gnssData);
+
+    return  gnss;
 }
