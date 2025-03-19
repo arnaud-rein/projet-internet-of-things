@@ -1,13 +1,6 @@
 #include "SIM7080G_SERIAL.hpp"
 // #include "ARGALI_PINOUT.hpp"
 
-unsigned long period1; 
-void everyX(){
-  if((millis() - period1) > 3000){
-    Serial.println("coucou");
-    period1 = millis();
-  }
-}
 
 String Send_AT(String message){
   unsigned long start_time = millis();
@@ -21,6 +14,7 @@ String Send_AT(String message){
       tmp_char = Sim7080G.read();
       uart_buffer += tmp_char; 
       Serial.print(tmp_char);
+      
     }
 
   }
