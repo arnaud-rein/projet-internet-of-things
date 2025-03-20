@@ -463,5 +463,68 @@ int main() {
             </ul>
         </div>
     </div>
+
+    <br>
+    <br>
+
+    <div class="container">
+        <h1>Connexion via 4G</h1>
+        <img src="./images/connection4G.png">
+        <img src="./images/terminalconnection4G.png">
+        <h1>📡 Connexion LTE-M avec SIM7080G</h1>
+        <p>Voici comment configurer le module SIM7080G pour se connecter au réseau LTE-M.</p>
+        
+        <h2>🔍 1️⃣ Sélectionner LTE-M uniquement</h2>
+        <div class="step">
+            <p>On force le module à utiliser LTE-M uniquement :</p>
+            <div class="code">AT+CNMP=38</div>
+        </div>
+
+        <h2>🚀 2️⃣ Activer LTE-M et désactiver NB-IoT</h2>
+        <div class="step">
+            <p>NB-IoT n'est pas supporté sur cette puce :</p>
+            <div class="code">AT+CMNB=1</div>
+        </div>
+
+        <h2>🌍 3️⃣ Configurer l'APN</h2>
+        <div class="step">
+            <p>On définit l'APN de l'opérateur pour la connexion Internet :</p>
+            <div class="code">AT+CGDCONT=1,"IP","iot.1nce.net"</div>
+        </div>
+
+        <h2>📶 4️⃣ Vérifier l'enregistrement sur le réseau</h2>
+        <div class="step">
+            <p>On vérifie si le module est bien connecté au réseau LTE-M :</p>
+            <div class="code">AT+CEREG?</div>
+        </div>
+
+        <h2>🌐 5️⃣ Activer la connexion Internet</h2>
+        <div class="step">
+            <p>On active la connexion Internet (PDP context) :</p>
+            <div class="code">AT+CNACT=0,1</div>
+        </div>
+
+        <h2>📡 6️⃣ Vérifier la connexion LTE-M</h2>
+        <div class="step">
+            <p>On s'assure que la connexion est bien active :</p>
+            <div class="code">AT+CGATT?</div>
+        </div>
+
+        <h2>📊 7️⃣ Vérifier la qualité du signal</h2>
+        <div class="step">
+            <p>On teste la puissance du signal :</p>
+            <div class="code">AT+CSQ</div>
+        </div>
+
+        <h2>📝 8️⃣ Récupérer les infos du module</h2>
+        <div class="step">
+            <p>Obtenir l'IMEI, le CCID de la carte SIM et l'opérateur :</p>
+            <div class="code">
+AT+GSN   // IMEI du module
+AT+CCID  // ID de la carte SIM
+AT+COPS? // Opérateur utilisé
+            </div>
+        </div>
+    </div>
 </body>
 </html>

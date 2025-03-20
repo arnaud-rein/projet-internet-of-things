@@ -3,6 +3,7 @@
 void setup_CATM1()
 {
     //You must turn off GNSS before turning on CATM1
+    gnssTurnOff();
 
     //see datasheet
     Send_AT("AT+CNMP=38");
@@ -51,3 +52,26 @@ void loop_CATM1()
     Send_AT("AT+CEREG?");
     Send_AT("AT+CSQ");
 }
+
+
+// int csqNumber(String dataLTE){
+    // int end = 0;
+    // int start = 0;
+    // int lengthCSQ = 0;
+    // String response;
+
+    // end = dataLTE.indexOf('+CSQ:', start);
+    // lengthCSQ = dataLTE.length();
+    // if(end != -1){
+    //     Float_gnss csqResponse;
+    //    int positionEnt;
+    //    response = dataLTE.substring(end + 6, lengthCSQ); // recuperation de la valeur
+    //    positionEnt = response.indexOf(',', 0).toInt(); // recuperation de la partie entier
+    //    csqResponse.ent = response.substring(end + 6, positionEnt);
+    // }else{
+    //     // response = -1;
+    // }
+
+   
+
+// }
