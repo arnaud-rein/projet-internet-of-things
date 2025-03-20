@@ -11,9 +11,10 @@ unsigned long period1;
       // loop_CATM1();
 
       //sub string 
+      
 
       String test = "+CSQ: 23,99";
-
+      int lengthEnd = test.length(); 
       int indexStartCSQ = test.indexOf("+CSQ:", 0);
       Serial.print("indexStartCSQ : ");
       Serial.println((String) indexStartCSQ);
@@ -31,9 +32,19 @@ unsigned long period1;
       
 
       String numberEnt = test.substring(indexAfterCSQ, virgule);
-
+      int numberEndAfterVirgule = test.indexOf(" ", virgule + 1);
+      String numberDec = test.substring(virgule + 1, numberEndAfterVirgule);
       Serial.print("number ent  : ");
       Serial.println(numberEnt);
+      Serial.print("number dec  : ");
+      Serial.println(numberDec);
+
+      Float_gnss flt; 
+      flt.ent = numberEnt.toInt();
+      flt.dec = numberDec.toInt();
+      Serial.println((String) flt.ent + "," + flt.dec);
+
+
 
     }
   }

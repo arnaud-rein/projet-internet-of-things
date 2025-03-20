@@ -13,7 +13,7 @@ void setup_CATM1();
 void loop_CATM1();
 
 
-// int csqNumber(String dataLTE);
+int csqNumber(String dataLTE);
 
 
 #endif

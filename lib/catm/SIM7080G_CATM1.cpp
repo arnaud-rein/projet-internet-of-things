@@ -51,27 +51,41 @@ void loop_CATM1()
 {
     Send_AT("AT+CEREG?");
     Send_AT("AT+CSQ");
+    csqNumber(Send_AT("AT+CSQ"));
 }
 
 
-// int csqNumber(String dataLTE){
-    // int end = 0;
-    // int start = 0;
-    // int lengthCSQ = 0;
-    // String response;
+int csqNumber(String dataLTE){
+    int lengthEnd = dataLTE.length(); 
+      int indexStartCSQ = dataLTE.indexOf("+CSQ:", 0);
+      Serial.print("indexStartCSQ : ");
+      Serial.println((String) indexStartCSQ);
 
-    // end = dataLTE.indexOf('+CSQ:', start);
-    // lengthCSQ = dataLTE.length();
-    // if(end != -1){
-    //     Float_gnss csqResponse;
-    //    int positionEnt;
-    //    response = dataLTE.substring(end + 6, lengthCSQ); // recuperation de la valeur
-    //    positionEnt = response.indexOf(',', 0).toInt(); // recuperation de la partie entier
-    //    csqResponse.ent = response.substring(end + 6, positionEnt);
-    // }else{
-    //     // response = -1;
-    // }
+      int indexAfterCSQ = indexStartCSQ + 6; 
+
+      Serial.print("indexAfterCsq  : ");
+      Serial.println((String) indexAfterCSQ);
+
+
+      int virgule = dataLTE.indexOf(",", indexAfterCSQ);
+
+      Serial.print("virgule  : ");
+      Serial.println((String) virgule);
+      
+
+      String numberEnt = dataLTE.substring(indexAfterCSQ, virgule);
+      int numberEndAfterVirgule = dataLTE.indexOf(" ", virgule + 1);
+      String numberDec = dataLTE.substring(virgule + 1, numberEndAfterVirgule);
+      Serial.print("number ent  : ");
+      Serial.println(numberEnt);
+      Serial.print("number dec  : ");
+      Serial.println(numberDec);
+
+      Float_gnss flt; 
+      flt.ent = numberEnt.toInt();
+      flt.dec = numberDec.toInt();
+      Serial.println((String) flt.ent + "," + flt.dec);
 
    
 
-// }
+}
