@@ -81,19 +81,78 @@
 // }
 
 
+// void TCP_send()
+// {
+    
+//     Send_AT("AT+CAOPEN=0,0,\"TCP\",\"rnsgp-2a04-cec0-115b-37ed-392d-81be-5e94-59f4.a.free.pinggy.link\",33777");
+    
+//     //cf datasheet
+//     Send_AT("AT+CASEND=0,6");
+//     //attendre le charactère '>' avant d'envoyer la data    
+//     Send_AT("cou");
+
+//     //send_TCP_packet_data(&j);
+
+//     Send_AT("AT+CACLOSE=0");
+//     //send_AT(AT+CARECV,1460);
+
+// }
+
+
 void TCP_send()
 {
-    
-    Send_AT("AT+CAOPEN=0,0,\"TCP\",\"rnsgp-2a04-cec0-115b-37ed-392d-81be-5e94-59f4.a.free.pinggy.link\",33777");
-    
-    //cf datasheet
-    Send_AT("AT+CASEND=0,6");
-    //attendre le charactère '>' avant d'envoyer la data    
-    Send_AT("cou");
+    // Ouvrir une connexion TCP vers Pinggy
+    Send_AT("AT+CAOPEN=0,0,\"TCP\",\"rnshw-2a01-cb0a-9014-328d-dcb0-4b5d-50df-772d.a.free.pinggy.link\",43487");
+    delay(2000); // Attendre que la connexion soit établie
 
-    //send_TCP_packet_data(&j);
+    // Vérifier que la connexion est bien OK (à gérer avec une fonction qui lit la réponse AT)
+    
+    // Indiquer au module qu'on va envoyer 10 octets
+    Send_AT("AT+CASEND=0,10");
+    
+    // Attendre le prompt `>` avant d'envoyer les données
+    delay(1000); // Petite attente pour que le module soit prêt
 
+    // Envoyer des données (exemple : une requête HTTP GET basique)
+    Send_AT("GET /test\n");
+
+    // Attendre la réponse du serveur
+    delay(2000);
+
+    // Lire la réponse du serveur (tu dois implémenter une fonction qui affiche la réponse)
+    // read_AT_response();
+
+    // Fermer proprement la connexion TCP
     Send_AT("AT+CACLOSE=0");
-    //send_AT(AT+CARECV,1460);
-
 }
+
+
+// void TCP_send()
+// {
+//     // 1️⃣ Ouvrir la connexion TCP avec Pinggy
+//     Send_AT("AT+CAOPEN=0,0,\"TCP\",\"rnshw-xxxxx.a.free.pinggy.link\",43487");
+//     delay(5000); // Attendre la réponse du module
+
+//     // 2️⃣ Vérifier si la connexion est bien ouverte
+//     // (Ajoute une fonction pour lire la réponse si nécessaire)
+    
+//     // 3️⃣ Indiquer qu'on va envoyer 83 octets (calcul exact)
+//     Send_AT("AT+CASEND=0,83"); 
+//     delay(15000); // Attendre le prompt '>'
+
+//     // 4️⃣ Envoyer les données en respectant le format HTTP
+//     Send_AT("POST /data HTTP/1.1\r\n");
+//     Send_AT("Host: rnshw-xxxxx.a.free.pinggy.link\r\n");
+//     Send_AT("Content-Type: application/json\r\n");
+//     Send_AT("Content-Length: 18\r\n");
+//     Send_AT("\r\n");  // Ligne vide essentielle !
+//     Send_AT("{\"temperature\":25.5}\r\n");
+
+//     delay(10000); // Attendre pour éviter la coupure
+
+//     // 5️⃣ Lire la réponse (optionnel)
+//     // read_AT_response();
+
+//     // 6️⃣ Fermer proprement la connexion TCP
+//     Send_AT("AT+CACLOSE=0");
+// }

@@ -1,28 +1,42 @@
 #include <Arduino.h>
 #include <unity.h>
+#include <TEST.hpp>
 
-// Fonction à tester (exemple simple)
-int addition(int a, int b) {
-    return a + b;
+void setUp() {
+    // Ajout d'un délai pour éviter que le moniteur série manque les premiers logs
+    delay(2000);  
+    Serial.println("Test débuté...");
 }
 
-// ⚡ Test 1 : Vérifier que 2 + 3 = 5
-void test_addition() {
-    TEST_ASSERT_EQUAL(5, addition(2, 3));
+void tearDown() {
+    Serial.println("Test terminé.");
 }
 
-// ⚡ Test 2 : Vérifier que -1 + 1 = 0
-void test_addition_negatif() {
-    TEST_ASSERT_EQUAL(0, addition(-1, 1));
+// Test simple : Vérifier que 2 + 2 = 4
+void test_math() {
+    TEST_ASSERT_EQUAL(4, 2 + 2);
+}
+void test_math2() {
+    TEST_ASSERT_EQUAL(5, 3 + 2);
 }
 
-// ⚡ Setup pour PlatformIO
+void testH(){
+    String result = test();
+    TEST_ASSERT_EQUAL_STRING("success", result.c_str());
+}
+
+
+
 void setup() {
-    UNITY_BEGIN(); // Démarrer Unity
-    RUN_TEST(test_addition);
-    RUN_TEST(test_addition_negatif);
-    UNITY_END(); // Terminer Unity
+    Serial.begin(115200);
+    delay(3000); // Attendre 3 secondes avant de commencer les tests
+    UNITY_BEGIN();
+    // RUN_TEST(test_math);
+    // RUN_TEST(test_math2);
+    RUN_TEST(testH);
+    UNITY_END();
 }
 
-// ⚡ Boucle vide pour ESP32
-void loop() {}
+void loop() {
+    // Laisser vide pour éviter une boucle infinie
+}
