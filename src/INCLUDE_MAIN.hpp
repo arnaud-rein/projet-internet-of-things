@@ -10,6 +10,7 @@
 #include  "PARSER_TIMESTAMP.hpp"
 #include "SIM7080G_SERIAL.hpp"
 #include "SIM7080G_CATM1.hpp"
+#include "SIM7080G_TCP.hpp"
 
 
 //SETUP 

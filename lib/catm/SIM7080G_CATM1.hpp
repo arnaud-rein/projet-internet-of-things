@@ -7,14 +7,16 @@
 #include "ARGALI_PINOUT.hpp"
 #include "SIM7080G_SERIAL.hpp"
 #include "SIM7080G_GNSS.hpp"
+#include "SIM7080G_TCP.hpp"
 
 void setup_CATM1();
 
 void loop_CATM1();
 
 
-int csqNumber(String dataLTE);
-
+// void csqNumber(String dataLTE);
+// void cnactNumber(String dataLTE);
+String findSelect(String data, String nameStart, int numberPassAfterNameStart, String symbolToSelectStart, String symbolToEnd);
 
 #endif
 

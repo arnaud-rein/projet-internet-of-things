@@ -10,6 +10,6 @@
 
 
 // Déclaration des fonctions
-String Send_AT(String message);
+String Send_AT(String message, long delay = 1000);
 
 #endif // SIM7080G_SERIAL_HPP
