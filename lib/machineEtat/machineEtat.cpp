@@ -1,7 +1,7 @@
 #include "MachineEtat.hpp"
 
 // Constructeur pour initialiser la structure ATCommandTask
-ATCommandTask::ATCommandTask(const char* cmd, const char* expected, int maxRetries, unsigned long timeout)
+ATCommandTask::ATCommandTask(String cmd, String expected, int maxRetries, unsigned long timeout)
     : state(IDLE), command(cmd), expectedResponse(expected), responseBuffer(""), lastSendTime(0),
       retryCount(0), MAX_RETRIES(maxRetries), TIMEOUT(timeout), isFinished(false) {}
 
@@ -20,14 +20,14 @@ void MachineEtat::updateATState(ATCommandTask &task) {
 
         case SENDING:
             Serial.println("[SENDING] Envoi de : " + String(task.command));
-            Serial1.println(task.command);
+            Sim7080G.println(task.command);
             task.lastSendTime = millis();
             task.state = WAITING_RESPONSE;
             break;
 
         case WAITING_RESPONSE:
-            if (Serial1.available()) {
-                task.responseBuffer = Serial1.readStringUntil('\n');
+        if (Sim7080G.available()) {
+            task.responseBuffer = Sim7080G.readStringUntil('\n');
                 task.state = PARSING;
             } else if (millis() - task.lastSendTime > task.TIMEOUT) {
                 Serial.println("[TIMEOUT] Pas de réponse pour " + String(task.command));
