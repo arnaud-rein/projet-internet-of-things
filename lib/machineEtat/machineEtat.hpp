@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <SIM7080G_SERIAL.hpp>
+#include "ARGALI_PINOUT.hpp"
 
 // Définition des états de la machine d'état
 enum ATState {
@@ -25,6 +26,7 @@ struct ATCommandTask {
     const int MAX_RETRIES;
     const unsigned long TIMEOUT;
     bool isFinished;  // ⬅️ Ajout pour bloquer la réexécution
+    String result; 
 
     ATCommandTask(String cmd, String expected, int maxRetries, unsigned long timeout);
 };
@@ -35,5 +37,7 @@ public:
     MachineEtat();
     void updateATState(ATCommandTask &task);
 };
+
+bool analyzeResponse(const String& response, const String& expected);
 
 #endif
