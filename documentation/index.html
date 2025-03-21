@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
+    <a href="#pinggy">Aller à la section pinggy</a>
+    <a href="#connexion4G">Aller à la section connexion4G</a>
+    <a href="#machineEtat">Aller à la section machineEtat</a>
     <p>Build automatiquement en faisant upload - restart l'upload </p>
     <h4>Ne pas hésiter à spam le ctrl + alt + s, ca peut fonctionner au bout d'un moment</h4>
     <h4>OVERFLOW millis() </h4>
@@ -467,7 +470,7 @@ int main() {
     <br>
     <br>
 
-    <div class="container">
+    <div class="container" id="connexion4G">
         <h1>Connexion via 4G</h1>
         <img src="./images/connection4G.png">
         <img src="./images/terminalconnection4G.png">
@@ -526,5 +529,288 @@ AT+COPS? // Opérateur utilisé
             </div>
         </div>
     </div>
+
+
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <div class="container" id="pinggy">
+        <h1 >Envoyé qlq chose au serveur pinggy avec la config de Maxime : </h1>
+
+        <div class="code">
+            <h2 style="color: white;">Code pour envoyer un message au serveur: </h2>
+            <pre>
+void sendMinimalCBORMessage() {
+    // 1. Préparer un message simple
+    const char* message = "coucou serveur";
+    json j = message;
+    
+    // 2. Convertir en CBOR
+    std::vector<uint8_t> cborData = json::to_cbor(j);
+    
+    // 3. Ouvrir la connexion TCP (Pinggy)
+    Send_AT("AT+CAOPEN=0,0,\"TCP\",\"rntgi-185-223-151-250.a.free.pinggy.link\",41735");
+    delay(3000);  // attendre que la connexion soit établie
+    
+    // 4. Informer le module qu’on va envoyer N octets
+    String cmd = "AT+CASEND=0," + String(cborData.size());
+    Send_AT(cmd);
+    delay(500);  // attendre le prompt '>'
+    
+    // 5. Envoyer les octets CBOR
+    for (uint8_t byte : cborData) {
+        Sim7080G.write(byte);
+    }
+    
+    Serial.println("[ENVOYÉ] CBOR minimal envoyé");
+    
+    // 6. Fermer la connexion proprement
+    delay(2000);
+    Send_AT("AT+CACLOSE=0");
+    }
+            </pre>
+        </div>
+        <br>
+        <div class="output">
+            <h2> Résultat dans le terminal</h2>
+            <pre>
+Around the World
+AT+GSN
+860016044667504
+
+OK
+AT+CNMP=38
+OK
+AT+CMNB=1
+OK
+AT+CNACT=0,0
+ERROR
+AT+CGDCONT=1,"IP","iot.1nce.net"
+OK
+AT+CGNAPN
++CGNAPN: 0,""
+
+OK
+AT+CNCFG=0,1,iot.1nce.net
+OK
+AT+CEREG?
++CEREG: 0,2
+
+OK
+AT+CNACT=0,1
+OKmillis de findSelect6366 voici le findSelect
+=============data :
+AT+CNACT=0,1
+OK
+indexStart: -1
+indexAfterStart: 3
+indexSymbolStart: 12
+numberBetween_symbolStart_symbolEnd: -1
+résultat : 1
+OK
+
+AT+CGATT?
++CGATT: 0
+
+OK
+AT+CNACT?
++CNACT: 0,2,"0.0.0.0"
++CNACT: 1,0,"0.0.0.0"
++CNACT: 2,0,"0.0.0.0"
++CNACT: 3,0,"0.0.0.0"
+
+OK
+AT+CNACT?
++CNACT: 0,2,"0.0.0.0"
++CNACT: 1,0,"0.0.0.0"
++CNACT: 2,0,"0.0.0.0"
++CNACT: 3,0,"0.0.0.0"
+
+OKmillis de findSelect6423 voici le findSelect
+=============data :
+AT+CNACT?
++CNACT: 0,2,"0.0.0.0"
++CNACT: 1,0,"0.0.0.0"
++CNACT: 2,0,"0.0.0.0"
++CNACT: 3,0,"0.0.0.0"
+
+OK
+indexStart: 14
+indexAfterStart: 26
+indexSymbolStart: 26
+numberBetween_symbolStart_symbolEnd: 28
+résultat : 0
+
+AT+GSN
+860016044667504
+
+OK
+AT+CCID
+89882280666170608784
+
+OK
+AT+COPS?
++COPS: 0
+
+OK
+AT+CEREG?
++CEREG: 0,2
+
+OK
+AT+CSQ
++CSQ: 99,99
+
+OK
+AT+CAOPEN=0,0,"TCP","rntgi-185-223-151-250.a.free.pinggy.link",41735
++CAOPEN: 0,1
+
+OK
+
++APP PDP: 0,ACTIVE[ENVOYÉ] CBOR minimal envoyé
+
+
+*PSUTTZ: 25/03/21,15:12:03","+04",0
+AT+CASEND=0,15
+ERROR
+AT+CACLOSE=0
+ERROR
+AT+CAOPEN=0,0,"TCP","rntgi-185-223-151-250.a.free.pinggy.link",41735
++CAOPEN: 0,0
+
+</pre>
+<br>
+<p>On peut voir que l'on a pas d'adresse IP, bien que dans les upload précédents, cela fonctionnait</p>
+<p>Plus troublant encore, quand la méthode "sendMinimalCBORMessage()" est executé, "Send_AT("AT+CAOPEN=0,0,\"TCP\",\"rntgi-185-223-151-250.a.free.pinggy.link\",41735");"  </p>
+<p>va fonctionner, on peut voir le résultat ci-dessous :</p>
+<img src="./images/pinggyrec.png" style="width: 60em;">
+<img src="./images/coucouServer.png" style="width: 60em;">
+<h5>On constate que l'on a bien "coucou serveur"</h5>
+        </div>
+    </div>
+
+<br>
+<br>
+
+    <div class="container" id="machineEtat">
+        <h1>🧠 Machine d'État AT - Documentation</h1>
+        <p> Utilisation après coup de chatGPT pour expliquer mon code. </p>
+        
+        <div class="explanation">
+          <h2>🔁 Qu'est-ce qu'une Machine d'État ?</h2>
+          <p>
+            Une machine d’état (ou <strong>state machine</strong>) est une manière de représenter un processus
+            qui passe par différents états <em>de façon séquentielle et contrôlée</em>. Ici, elle gère l'envoi de commandes AT
+            à un module SIM7080G, en assurant les étapes suivantes :
+          </p>
+          <ul>
+            <li><strong>IDLE</strong> : prêt à envoyer</li>
+            <li><strong>SENDING</strong> : envoie la commande</li>
+            <li><strong>WAITING_RESPONSE</strong> : attend la réponse</li>
+            <li><strong>PARSING</strong> : analyse la réponse</li>
+            <li><strong>RETRY</strong> : retente si erreur ou timeout</li>
+            <li><strong>ERROR</strong> : erreur définitive</li>
+          </ul>
+
+          <br> 
+          <p>
+            Pourquoi un nom de function tel que switchPipeline ? 
+        </p>
+        <p> parce que ca me fait penser à jenkins  : </p>
+        <img src="./images/jenkinspipeline.png" style="width: 40em; height: 20em;">
+        <p> on voit là un exemple de pipeline, chaque étape doit être réalisé avant de passer à une autre</p>
+            
+        </div>
+    
+        <div class="explanation">
+          <h2>📦 Pourquoi une <code>class</code> pour <code>MachineEtat</code> ?</h2>
+          <p>
+            La classe <code>MachineEtat</code> agit comme <strong>le cerveau de la machine</strong> : elle contient
+            la logique de mise à jour des états pour n'importe quelle tâche AT (<code>ATCommandTask</code>). Cela permet
+            de séparer la logique de traitement de l'état du stockage des données.
+          </p>
+        </div>
+    
+        <div class="explanation">
+          <h2>🧱 Pourquoi une <code>struct</code> pour <code>ATCommandTask</code> ?</h2>
+          <p>
+            <code>ATCommandTask</code> est une structure qui stocke <strong>toutes les infos nécessaires</strong> à une commande AT :
+            <ul>
+              <li>La commande à envoyer</li>
+              <li>La réponse attendue</li>
+              <li>Les tentatives et le timeout</li>
+              <li>Le buffer de réponse</li>
+            </ul>
+            Elle permet de gérer plusieurs commandes AT en parallèle avec une seule machine d’état.
+          </p>
+        </div>
+    
+        <div class="explanation">
+          <h2>⚙️ Étapes dans <code>main.cpp</code></h2>
+          <div class="step"><strong>STEP_INIT</strong> : Initialise le système</div>
+          <div class="step"><strong>STEP_WAIT_SIM</strong> : Attend que la commande <code>AT+SIMCOMATI</code> réussisse</div>
+          <div class="step"><strong>STEP_CONFIG_CATM1</strong> : Configure le mode CATM1</div>
+          <div class="step"><strong>STEP_WAIT_CNACT</strong> : Attend que <code>AT+CNACT</code> active la connexion</div>
+          <div class="step"><strong>STEP_DONE</strong> : Fin du processus</div>
+        </div>
+    
+        <div class="explanation">
+          <h2>📊 États de la machine</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>État</th>
+                <th>Description</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>IDLE</td>
+                <td>Prêt à envoyer une commande</td>
+                <td>Réinitialise le buffer, passe à <code>SENDING</code></td>
+              </tr>
+              <tr>
+                <td>SENDING</td>
+                <td>Envoie la commande AT</td>
+                <td>Attend ensuite la réponse (<code>WAITING_RESPONSE</code>)</td>
+              </tr>
+              <tr>
+                <td>WAITING_RESPONSE</td>
+                <td>Analyse la réponse entrante</td>
+                <td>Passe à <code>PARSING</code> si correspondance, sinon timeout → <code>RETRY</code></td>
+              </tr>
+              <tr>
+                <td>PARSING</td>
+                <td>Vérifie si la réponse est correcte</td>
+                <td>Succès → <code>IDLE</code>, sinon <code>RETRY</code></td>
+              </tr>
+              <tr>
+                <td>RETRY</td>
+                <td>Retente d’envoyer la commande</td>
+                <td>Si max atteint → <code>ERROR</code></td>
+              </tr>
+              <tr>
+                <td>ERROR</td>
+                <td>État bloqué en cas d’échec</td>
+                <td>Retourne à <code>IDLE</code> (possibilité d’amélioration ici)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    
+        <div class="explanation">
+          <h2>🧪 Exemple de tâche AT</h2>
+          <pre class="code">
+    ATCommandTask task("AT+SIMCOMATI", "860016044667504", 10, 3000);
+    machine.updateATState(task);
+          </pre>
+          <p>
+            Ici, la machine va gérer l’envoi automatique de la commande et passer par tous les états jusqu’à réussite ou échec.
+          </p>
+        </div>
+    
+      </div>
 </body>
 </html>

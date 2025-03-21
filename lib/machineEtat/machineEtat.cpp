@@ -1,15 +1,16 @@
 #include "MachineEtat.hpp"
 
 // Constructeur pour initialiser la structure ATCommandTask
-ATCommandTask::ATCommandTask(const char* cmd, const char* expected, int maxRetries, unsigned long timeout)
+ATCommandTask::ATCommandTask(String cmd, String expected, int maxRetries, unsigned long timeout)
     : state(IDLE), command(cmd), expectedResponse(expected), responseBuffer(""), lastSendTime(0),
-      retryCount(0), MAX_RETRIES(maxRetries), TIMEOUT(timeout), isFinished(false) {}
+      retryCount(0), MAX_RETRIES(maxRetries), TIMEOUT(timeout), isFinished(false), result("") {}
 
 // Constructeur de la machine d'état
 MachineEtat::MachineEtat() {}
 
 // Implémentation de la machine d’état
 void MachineEtat::updateATState(ATCommandTask &task) {
+    bool responseFound = false;  // Ajout d'un booléen
     switch (task.state) {
         case IDLE:
             Serial.println("[IDLE] Prêt à envoyer : " + String(task.command));
@@ -20,20 +21,40 @@ void MachineEtat::updateATState(ATCommandTask &task) {
 
         case SENDING:
             Serial.println("[SENDING] Envoi de : " + String(task.command));
-            Serial1.println(task.command);
+            Sim7080G.println(task.command);
             task.lastSendTime = millis();
             task.state = WAITING_RESPONSE;
             break;
 
         case WAITING_RESPONSE:
-            if (Serial1.available()) {
-                task.responseBuffer = Serial1.readStringUntil('\n');
-                task.state = PARSING;
-            } else if (millis() - task.lastSendTime > task.TIMEOUT) {
-                Serial.println("[TIMEOUT] Pas de réponse pour " + String(task.command));
+           
+        
+            while (Sim7080G.available()) {
+                String response = Sim7080G.readStringUntil('\n'); // Lire une ligne complète
+                response.trim(); // Nettoyer les espaces et sauts de ligne
+        
+                Serial.println("[RESPONSE] " + response);
+        
+                // Ajouter la ligne au buffer de réponse
+                task.responseBuffer += response + "\n";
+        
+                // Vérifie si la réponse reçue contient la fin attendue
+                if (analyzeResponse(task.responseBuffer, task.expectedResponse)) {
+                    Serial.println("[MATCH] Réponse complète détectée !");
+                    task.state = PARSING;
+                    responseFound = true;  // Marquer la réponse comme trouvée
+                    break;  // Sortir immédiatement de la boucle while
+                }
+            }
+        
+            // Timeout uniquement si aucune réponse n'a été trouvée
+            if (!responseFound && (millis() - task.lastSendTime > task.TIMEOUT)) {
+                Serial.println("[TIMEOUT] Pas de réponse complète pour " + String(task.command));
                 task.state = RETRY;
             }
             break;
+    
+            
 
         case PARSING:
             Serial.println("[PARSING] Réponse reçue : " + task.responseBuffer);
@@ -65,3 +86,22 @@ void MachineEtat::updateATState(ATCommandTask &task) {
             break;
     }
 }
+
+
+bool analyzeResponse(const String& response, const String& expected) {
+    if (response.length() == 0) return false; // Ignore si réponse vide
+
+    if (response.indexOf(expected) >= 0) {
+        Serial.println("[MATCH] Réponse complète détectée !");
+        return true;
+    }
+
+    // Vérifie si la réponse contient "OK" à la fin, ce qui est souvent un indicateur
+    if (response.endsWith("OK") || response.indexOf("ERROR") >= 0) {
+        Serial.println("[INFO] Réponse détectée mais pas complète...");
+        return false;
+    }
+
+    return false;
+}
+

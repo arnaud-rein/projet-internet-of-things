@@ -2,6 +2,8 @@
 #define MACHINE_ETAT_HPP
 
 #include <Arduino.h>
+#include <SIM7080G_SERIAL.hpp>
+#include "ARGALI_PINOUT.hpp"
 
 // Définition des états de la machine d'état
 enum ATState {
@@ -16,16 +18,17 @@ enum ATState {
 // Structure pour gérer une tâche AT
 struct ATCommandTask {
     ATState state;
-    const char* command;
-    const char* expectedResponse;
+    String command;
+    String expectedResponse;
     String responseBuffer;
     unsigned long lastSendTime;
     int retryCount;
     const int MAX_RETRIES;
     const unsigned long TIMEOUT;
     bool isFinished;  // ⬅️ Ajout pour bloquer la réexécution
+    String result; 
 
-    ATCommandTask(const char* cmd, const char* expected, int maxRetries, unsigned long timeout);
+    ATCommandTask(String cmd, String expected, int maxRetries, unsigned long timeout);
 };
 
 // Classe de la machine d'état
@@ -34,5 +37,7 @@ public:
     MachineEtat();
     void updateATState(ATCommandTask &task);
 };
+
+bool analyzeResponse(const String& response, const String& expected);
 
 #endif

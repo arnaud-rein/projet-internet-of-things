@@ -53,7 +53,7 @@ void setup_CATM1()
     Send_AT("AT+CSQ");
 }
 
-void loop_CATM1()
+void loop_CATM1() // vérifie que c'est bien connecté via la connexion = 5
 {
     if(findSelect(Send_AT("AT+CEREG?"), "+CEREG:", 9, ",", " ") == "5"){
         Serial.println("5 condition");

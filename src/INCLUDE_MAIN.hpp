@@ -14,6 +14,12 @@
 #include "machineEtat.hpp"
 
 
+
+//LIB ext
+#include <nlohmann/json.hpp>
+#include <vector>
+using json = nlohmann::json;
+
 //SETUP 
 #include "setup/gnss/SETUP_GNSS.hpp"
 
@@ -21,6 +27,15 @@
 //CONTEXT
 #include "context/display/LatLng/DisplayLatLng.hpp"
 #include "context/display/TimeStamp/DisplayTimeStamp.hpp"
+
+enum ProcessStep {
+    STEP_INIT,
+    STEP_WAIT_SIM,
+    STEP_CONFIG_CATM1,
+    STEP_WAIT_CNACT,
+    STEP_DONE
+};
+
 
 
 #endif
