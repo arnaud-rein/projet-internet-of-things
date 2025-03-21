@@ -14,6 +14,12 @@
 #include "machineEtat.hpp"
 
 
+
+//LIB ext
+#include <nlohmann/json.hpp>
+#include <vector>
+using json = nlohmann::json;
+
 //SETUP 
 #include "setup/gnss/SETUP_GNSS.hpp"
 
